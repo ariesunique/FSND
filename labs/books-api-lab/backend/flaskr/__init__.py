@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy #, or_
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException, default_exceptions
 import random
 
 from models import setup_db, Book
@@ -20,12 +21,25 @@ def create_app(test_config=None):
     setup_db(app)
     CORS(app)
 
+        
     # CORS Headers 
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         return response
+
+    
+    @app.errorhandler(Exception)
+    def handle_error(e):
+        code = 500
+        if isinstance(e, HTTPException):
+            code = e.code
+        return jsonify(error=str(e)), code
+    
+    
+    for ex in default_exceptions:
+        app.register_error_handler(ex, handle_error)
 
     # @TODO: Write a route that retrivies all books, paginated. 
     #         You can use the constant above to paginate by eight books.
@@ -79,7 +93,7 @@ def create_app(test_config=None):
 
         if book:
             if request.method == "PATCH":
-                request_json = request.get_json()
+                request_json = request.get_json(force=True)  # read json even if header is not set to application/json
                 rating = request_json.get("rating")
                 book.rating = rating
                 book.update()
@@ -105,10 +119,11 @@ def create_app(test_config=None):
                     "total_books": len(books)
                 })
         else:
-            return jsonify({
-                "success": False,
-                "error": "Unable to locate book with id={}".format(book_id)
-            })
+            abort(404)
+#             return jsonify({
+#                 "success": False,
+#                 "error": "Unable to locate book with id={}".format(book_id)
+#             })
 
 
     # @TODO: Write a route that will delete a single book. 
