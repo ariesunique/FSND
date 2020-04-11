@@ -2,6 +2,10 @@
 
 ## Full Stack Trivia
 
+This is part of a project on the Udacity Full Stack Developer NanoDegree course. The goal of this project is write an API for a trivia web application. For this project, Udacity provided the project structure, the frontend code (written in React), and the database models. I wrote the code providing the API, test cases, and documentation. 
+
+**Below is the project description provided by Udacity:**
+
 Udacity is invested in creating bonding experiences for its employees and students. A bunch of team members got the idea to hold trivia on a regular basis and created a  webpage to manage the trivia app and play the game, but their API experience is limited and still needs to be built out. 
 
 That's where you come in! Help them finish the trivia app so they can start holding trivia and seeing who's the most knowledgeable of the bunch. The application must:
