@@ -68,13 +68,51 @@ One note before you delve into your tasks: for each endpoint you are expected to
 
 ## API DOCUMENTATION
 
+### Endpoints
+
+```
+GET /categories
+GET /categories/{category_id}/questions
+GET /questions
+POST /questions
+DELETE /questions/{id}
+POST /quizzes
+```
+
+All responses include a "success" key which will be set to "true" or "false".
+If success = false, an "error" key will also be included, which provides details about the error.
+
 ### Categories
 
 #### The category object
 
 #### Get categories
 
-GET /categories
+**GET /categories**
+
+Retrieves a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category.
+
+*Parameters*: None
+
+*Returns*: A json object with a single key (categories) that contains a dictionary of (id: category_string) pairs.
+
+*Example*:
+
+```
+curl http://localhost:5000/categories
+
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}
+```
 
 #### Get all questions for a given category
 
@@ -103,6 +141,60 @@ POST /questions
 #### Get all questions for a given category
 
 GET /categories/{category_id}/questions
+
+Retrieves a list of questions belonging to a particular category 
+
+*Parameters*: None
+
+*Returns*: 
+    categories: a dictionary of (id: category_string) pairs.
+    current_category: the id of the current category
+    questions: a list of question objects
+    total_questions: the number of questions returned for this category
+    success: true or false - indicates if the request was successful or not
+
+*Example*:
+
+```
+curl http://localhost:5000/categories/1/questions
+
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": 1,
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 3
+}
+```
 
 #### Get the next question for a quiz
 
