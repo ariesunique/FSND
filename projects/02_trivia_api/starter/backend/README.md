@@ -88,7 +88,7 @@ If success = false, an "error" key will also be included, which provides details
 
 #### Get categories
 
-**GET /categories**
+GET /categories
 
 Retrieves a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category.
 
@@ -142,7 +142,7 @@ POST /questions
 
 GET /categories/{category_id}/questions
 
-Retrieves a list of questions belonging to a particular category 
+Retrieves a list of questions belonging to a particular category. The category_id of the particular category must be present in the url. If the specified category does not exist, a 404 error will be returned. 
 
 *Parameters*: None
 
